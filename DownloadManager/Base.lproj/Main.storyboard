@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14C68k" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="RMy-aQ-wfv">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="PSL-Df-qSw">
+            <objects>
+                <navigationController storyboardIdentifier="BaseController" id="RMy-aQ-wfv" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="hjr-9E-peK">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.35686274509803922" green="0.43137254901960786" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vQJ-uu-mjd" kind="relationship" relationship="rootViewController" id="AeK-ko-Vmn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7mH-pQ-OSK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-389" y="370"/>
+        </scene>
+        <!--Download-->
+        <scene sceneID="KN5-Gz-foo">
+            <objects>
+                <viewController storyboardIdentifier="DownloadViewController" id="vQJ-uu-mjd" customClass="DownloadViewController" customModule="DownloadManager" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="E4l-QD-GsB"/>
+                        <viewControllerLayoutGuide type="bottom" id="zwr-Fu-26P"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="HOA-oC-ATi">
+                        <rect key="frame" x="0.0" y="64" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Please input url" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="El0-c3-KcZ">
+                                <rect key="frame" x="0.0" y="91" width="375" height="35"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="pZN-Jg-IR1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CcW-po-CHz">
+                                <rect key="frame" x="0.0" y="150" width="375" height="36"/>
+                                <color key="backgroundColor" red="0.43144183125755509" green="0.53154191682044316" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="uHW-40-JnE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Add">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="submitButton:" destination="vQJ-uu-mjd" eventType="touchDown" id="uIN-Fd-kcv"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="CcW-po-CHz" firstAttribute="top" secondItem="El0-c3-KcZ" secondAttribute="bottom" constant="24" id="2dv-ee-jRb"/>
+                            <constraint firstAttribute="trailing" secondItem="CcW-po-CHz" secondAttribute="trailing" id="3hF-MG-b1v"/>
+                            <constraint firstItem="El0-c3-KcZ" firstAttribute="top" secondItem="HOA-oC-ATi" secondAttribute="top" constant="91" id="FaB-Jn-O8h"/>
+                            <constraint firstItem="CcW-po-CHz" firstAttribute="leading" secondItem="HOA-oC-ATi" secondAttribute="leading" id="fia-iT-Mrw"/>
+                            <constraint firstItem="El0-c3-KcZ" firstAttribute="leading" secondItem="HOA-oC-ATi" secondAttribute="leading" id="gsa-CR-FN9"/>
+                            <constraint firstAttribute="trailing" secondItem="El0-c3-KcZ" secondAttribute="trailing" id="hYS-3d-JcT"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Download" id="vO3-QQ-tJd">
+                        <barButtonItem key="rightBarButtonItem" id="Ljo-0S-UZ7">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5QA-Qb-zyj">
+                                <rect key="frame" x="-23" y="-15" width="83" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="List">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="QyA-tY-9rX" kind="show" id="5KA-E9-RVL"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="urlField" destination="El0-c3-KcZ" id="Qcg-hf-j90"/>
+                        <segue destination="QyA-tY-9rX" kind="show" identifier="downloadSegue" id="GMP-hb-AoM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cdW-SQ-AEc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="66.5" y="369.5"/>
+        </scene>
+        <!--List-->
+        <scene sceneID="rgx-cJ-X1A">
+            <objects>
+                <tableViewController title="List" id="QyA-tY-9rX" customClass="ListViewController" customModule="DownloadManager" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="83" sectionHeaderHeight="10" sectionFooterHeight="10" id="mvV-cV-4WG">
+                        <rect key="frame" x="0.0" y="64" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="sectionIndexColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="DownloadViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="DownloadCell" rowHeight="83" id="VEm-vd-6GG" customClass="DownloadViewCell" customModule="DownloadManager" customModuleProvider="target">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VEm-vd-6GG" id="TbL-pI-E7A">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="地址" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BXU-tm-L2b">
+                                            <rect key="frame" x="13" y="9" width="354" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="zyQ-8K-YLA"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8kN-Vd-Azx">
+                                            <rect key="frame" x="13" y="37" width="354" height="2"/>
+                                            <color key="progressTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </progressView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYE-74-Nkz">
+                                            <rect key="frame" x="227" y="47" width="107" height="30"/>
+                                            <state key="normal" title="暂停">
+                                                <color key="titleColor" red="0.35686274509999999" green="0.43137254899999999" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="pause:" destination="VEm-vd-6GG" eventType="touchDown" id="06O-Yn-vo0"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s08-F9-g8G">
+                                            <rect key="frame" x="43" y="47" width="107" height="30"/>
+                                            <state key="normal" title="下载">
+                                                <color key="titleColor" red="0.35686274509999999" green="0.43137254899999999" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="download:" destination="VEm-vd-6GG" eventType="touchDown" id="NqG-PA-xXV"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="XYE-74-Nkz" secondAttribute="bottom" constant="5" id="0Jp-qS-rBC"/>
+                                        <constraint firstItem="8kN-Vd-Azx" firstAttribute="leading" secondItem="TbL-pI-E7A" secondAttribute="leading" constant="13" id="1Zj-jX-4BE"/>
+                                        <constraint firstItem="BXU-tm-L2b" firstAttribute="top" secondItem="TbL-pI-E7A" secondAttribute="top" constant="9" id="J6I-qo-Ds0"/>
+                                        <constraint firstAttribute="trailing" secondItem="8kN-Vd-Azx" secondAttribute="trailing" constant="8" id="Jfh-7a-AEk"/>
+                                        <constraint firstItem="s08-F9-g8G" firstAttribute="width" secondItem="XYE-74-Nkz" secondAttribute="width" id="JnW-AT-lga"/>
+                                        <constraint firstItem="BXU-tm-L2b" firstAttribute="leading" secondItem="TbL-pI-E7A" secondAttribute="leading" constant="13" id="Mgm-7V-ytV"/>
+                                        <constraint firstItem="s08-F9-g8G" firstAttribute="leading" secondItem="TbL-pI-E7A" secondAttribute="leading" constant="43" id="THV-tH-yqG"/>
+                                        <constraint firstAttribute="centerX" secondItem="8kN-Vd-Azx" secondAttribute="centerX" id="Tib-qc-YsY"/>
+                                        <constraint firstAttribute="trailing" secondItem="BXU-tm-L2b" secondAttribute="trailing" constant="8" id="b4E-7U-XiP"/>
+                                        <constraint firstItem="8kN-Vd-Azx" firstAttribute="top" secondItem="BXU-tm-L2b" secondAttribute="bottom" constant="7" id="ekF-O2-1Rv"/>
+                                        <constraint firstItem="BXU-tm-L2b" firstAttribute="top" relation="greaterThanOrEqual" secondItem="TbL-pI-E7A" secondAttribute="top" constant="9" id="iTH-Gj-DfQ"/>
+                                        <constraint firstAttribute="bottom" secondItem="s08-F9-g8G" secondAttribute="bottom" constant="5" id="lyy-XT-yL4"/>
+                                        <constraint firstItem="XYE-74-Nkz" firstAttribute="leading" secondItem="s08-F9-g8G" secondAttribute="trailing" constant="77" id="qOw-3f-MF2"/>
+                                        <constraint firstAttribute="trailing" secondItem="XYE-74-Nkz" secondAttribute="trailing" constant="41" id="rGU-j9-9RP"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="iTH-Gj-DfQ"/>
+                                            <exclude reference="Tib-qc-YsY"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="downloadProgress" destination="8kN-Vd-Azx" id="gG0-Z3-eE6"/>
+                                    <outlet property="urlLabel" destination="BXU-tm-L2b" id="0eW-al-KlM"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="QyA-tY-9rX" id="2Ew-5G-rjO"/>
+                            <outlet property="delegate" destination="QyA-tY-9rX" id="DhA-oa-shl"/>
+                        </connections>
+                    </tableView>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fZ9-q7-1sl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="549.5" y="361.5"/>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="GMP-hb-AoM"/>
+    </inferredMetricsTieBreakers>
+    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+</document>
