@@ -19,7 +19,7 @@ class DownloadViewCell: UITableViewCell {
     
     @IBAction func download(sender: AnyObject) {
         if (operation != nil) {
-            operation.start()
+            operation.resume()
         }
         
         var fetcher = Task.lazyFetcher().limit(1).whereField("url", equalToValue: urlLabel.text)
@@ -39,12 +39,13 @@ class DownloadViewCell: UITableViewCell {
             println("download completed")
         }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
             println("error happened")
+            println(error)
         })
         
         operation.setProgressiveDownloadProgressBlock { (operation: AFDownloadRequestOperation!, bytesRead: Int, totalBytesRead: Int64, totalBytesExpected: Int64, totalBytesReadForFile: Int64, totalBytesExpectedToReadForFile: Int64) -> Void in
             println("progressive")
-            var currentBytes = NSNumber(longLong: totalBytesRead)
-            var totalBytes = NSNumber(longLong: totalBytesExpected)
+            var currentBytes = NSNumber(longLong: totalBytesReadForFile)
+            var totalBytes = NSNumber(longLong: totalBytesExpectedToReadForFile)
             
             var progress =  currentBytes.doubleValue / totalBytes.doubleValue
             self.downloadProgress.progress = Float(progress)
@@ -57,7 +58,7 @@ class DownloadViewCell: UITableViewCell {
     
     @IBAction func pause(sender: AnyObject) {
         if (operation != nil) {
-            operation.pause()
+            operation.cancel()
         }
     }
 
