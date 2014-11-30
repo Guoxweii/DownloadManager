@@ -18,47 +18,64 @@ class DownloadViewCell: UITableViewCell {
     let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
     
     @IBAction func download(sender: AnyObject) {
-        if (operation != nil) {
+        if operation.isPaused() {
             operation.resume()
+        } else {
+            operation.start()
         }
-        
+    }
+    
+    func configureDownloadInteractive() {
         var fetcher = Task.lazyFetcher().limit(1).whereField("url", equalToValue: urlLabel.text)
-        var task = fetcher.fetchRecords().first as Task
+        task = fetcher.fetchRecords().first as Task
         
-        var url = NSURL(string: urlLabel.text!)
-        if (url == nil) {
-            return
+        if (DownloadManager.sharedInstance.tasks[urlLabel.text!] == nil) {
+            var url = NSURL(string: urlLabel.text!)
+            if (url == nil) {
+                return
+            }
+            
+            var filename = url!.lastPathComponent
+            var path = documentsPath.stringByAppendingPathComponent(filename)
+            
+            var request = NSMutableURLRequest(URL: url!, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 7200)
+            operation = AFDownloadRequestOperation(request: request, targetPath: path, shouldResume: true)
+            DownloadManager.sharedInstance.tasks[urlLabel.text!] = operation
+        } else {
+            operation = DownloadManager.sharedInstance.tasks[urlLabel.text!]!
         }
         
-        var filename = url!.lastPathComponent
-        var path = documentsPath.stringByAppendingPathComponent(filename)
-        
-        var request = NSMutableURLRequest(URL: url!, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 7200)
-        operation = AFDownloadRequestOperation(request: request, targetPath: path, shouldResume: true)
         operation.setCompletionBlockWithSuccess({ (operation: AFHTTPRequestOperation!, data: AnyObject!) -> Void in
-            println("download completed")
+            self.task.progress = 100
+            self.task.setValue(100, forKey: "progress")
+            if !self.task.update() {
+                println(self.task.errors())
+            }
         }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-            println("error happened")
+            self.task.setValue(0, forKey: "progress")
+            self.task.update()
             println(error)
         })
         
         operation.setProgressiveDownloadProgressBlock { (operation: AFDownloadRequestOperation!, bytesRead: Int, totalBytesRead: Int64, totalBytesExpected: Int64, totalBytesReadForFile: Int64, totalBytesExpectedToReadForFile: Int64) -> Void in
-            println("progressive")
             var currentBytes = NSNumber(longLong: totalBytesReadForFile)
             var totalBytes = NSNumber(longLong: totalBytesExpectedToReadForFile)
             
             var progress =  currentBytes.doubleValue / totalBytes.doubleValue
             self.downloadProgress.progress = Float(progress)
             
+            self.task.setValue(Int(progress * 100), forKey: "progress")
+            if !self.task.update() {
+                println(self.task.errors())
+            }
+            println(Task.allRecords())
             println(progress)
-            
         }
-        operation.start()
     }
     
     @IBAction func pause(sender: AnyObject) {
         if (operation != nil) {
-            operation.cancel()
+            operation.pause()
         }
     }
 
