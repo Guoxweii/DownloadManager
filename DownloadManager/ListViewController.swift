@@ -38,6 +38,7 @@ class ListViewController: UITableViewController {
         cell.downloadProgress.progress = task.progress.floatValue / 100
         
         cell.configureDownloadInteractive()
+        cell.listViewController = self
 
         return cell
     }

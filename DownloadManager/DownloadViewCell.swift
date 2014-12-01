@@ -8,14 +8,20 @@
 
 import UIKit
 
+let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
+
 class DownloadViewCell: UITableViewCell {
     
     @IBOutlet var urlLabel: UILabel!
     @IBOutlet var downloadProgress: UIProgressView!
+    @IBOutlet var playButton: UIButton!
+    @IBOutlet var pauseButton: UIButton!
+    @IBOutlet var downloadButton: UIButton!
+    @IBOutlet var deleteButton: UIButton!
     
     var operation: AFDownloadRequestOperation!
     var task: Task!
-    let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
+    var listViewController: UITableViewController!
     
     @IBAction func download(sender: AnyObject) {
         println(DownloadManager.sharedInstance.tasks)
@@ -24,6 +30,55 @@ class DownloadViewCell: UITableViewCell {
         } else {
             operation.start()
         }
+        
+        playButton.hidden = true
+        downloadButton.hidden = true
+        pauseButton.hidden = false
+    }
+    
+    @IBAction func play(sender: AnyObject) {
+        var url = NSURL(string: urlLabel.text!)
+        if (url == nil) {
+            return
+        }
+        
+        var filename = url!.lastPathComponent
+        var path = documentsPath.stringByAppendingPathComponent(filename)
+    
+        var playerController = MPMoviePlayerViewController(contentURL: NSURL(fileURLWithPath: path)!)
+        playerController.moviePlayer.prepareToPlay()
+        playerController.moviePlayer.controlStyle = MPMovieControlStyle.Fullscreen
+        playerController.moviePlayer.repeatMode = MPMovieRepeatMode.One
+        playerController.moviePlayer.play()
+        
+        listViewController.presentMoviePlayerViewControllerAnimated(playerController)
+    }
+    
+    @IBAction func destory(sender: AnyObject) {
+        var url = NSURL(string: urlLabel.text!)
+        if (url == nil) {
+            return
+        }
+        
+        var filename = url!.lastPathComponent
+        var path = documentsPath.stringByAppendingPathComponent(filename)
+        
+        if (operation != nil) {
+            operation.cancel()
+        }
+        
+        if (task.progress == 100) {
+            var fileManager = NSFileManager.defaultManager()
+            fileManager.removeItemAtPath(path, error: nil)
+        }
+        
+        task.dropRecord() //TODO a lazy error
+        
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "reload", userInfo: nil, repeats: false)
+    }
+    
+    func reload() {
+        listViewController.tableView.reloadData()
     }
     
     func configureDownloadInteractive() {
@@ -41,9 +96,24 @@ class DownloadViewCell: UITableViewCell {
             
             var request = NSMutableURLRequest(URL: url!, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 7200)
             operation = AFDownloadRequestOperation(request: request, targetPath: path, shouldResume: true)
+            operation.deleteTempFileOnCancel = true
             DownloadManager.sharedInstance.tasks[urlLabel.text!] = operation
         } else {
             operation = DownloadManager.sharedInstance.tasks[urlLabel.text!]!
+        }
+        
+        if (task.progress == 100) {
+            pauseButton.hidden = true
+            downloadButton.hidden = true
+            playButton.hidden = false
+        } else if (operation.executing) {
+            pauseButton.hidden = false
+            downloadButton.hidden = true
+            playButton.hidden = true
+        } else {
+            pauseButton.hidden = true
+            downloadButton.hidden = false
+            playButton.hidden = true
         }
         
         operation.setCompletionBlockWithSuccess({ (operation: AFHTTPRequestOperation!, data: AnyObject!) -> Void in
@@ -52,6 +122,10 @@ class DownloadViewCell: UITableViewCell {
             if !self.task.update() {
                 println(self.task.errors())
             }
+            
+            self.playButton.hidden = false
+            self.downloadButton.hidden = true
+            self.pauseButton.hidden = true
         }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
             self.task.setValue(0, forKey: "progress")
             self.task.update()
@@ -75,6 +149,10 @@ class DownloadViewCell: UITableViewCell {
         if (operation != nil) {
             operation.pause()
         }
+        
+        playButton.hidden = true
+        downloadButton.hidden = false
+        pauseButton.hidden = true
     }
     
     func saveProgress() {
