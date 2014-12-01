@@ -18,6 +18,7 @@ class DownloadViewCell: UITableViewCell {
     let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
     
     @IBAction func download(sender: AnyObject) {
+        println(DownloadManager.sharedInstance.tasks)
         if operation.isPaused() {
             operation.resume()
         } else {
@@ -64,11 +65,8 @@ class DownloadViewCell: UITableViewCell {
             var progress =  currentBytes.doubleValue / totalBytes.doubleValue
             self.downloadProgress.progress = Float(progress)
             
-            self.task.setValue(Int(progress * 100), forKey: "progress")
-            if !self.task.update() {
-                println(self.task.errors())
-            }
-            println(Task.allRecords())
+            self.saveProgress()
+            
             println(progress)
         }
     }
@@ -76,6 +74,19 @@ class DownloadViewCell: UITableViewCell {
     @IBAction func pause(sender: AnyObject) {
         if (operation != nil) {
             operation.pause()
+        }
+    }
+    
+    func saveProgress() {
+        var progress = downloadProgress.progress
+        
+        if (Int(progress * 100) - task.progress.integerValue < 1) {
+            return
+        }
+        
+        self.task.setValue(Int(progress * 100), forKey: "progress")
+        if !self.task.update() {
+            println(self.task.errors())
         }
     }
 
