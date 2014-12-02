@@ -55,24 +55,20 @@ class DownloadViewCell: UITableViewCell {
     }
     
     @IBAction func destory(sender: AnyObject) {
-        var url = NSURL(string: urlLabel.text!)
-        if (url == nil) {
-            return
-        }
-        
-        var filename = url!.lastPathComponent
-        var path = documentsPath.stringByAppendingPathComponent(filename)
-        
         if (operation != nil) {
             operation.cancel()
         }
         
         if (task.progress == 100) {
             var fileManager = NSFileManager.defaultManager()
-            fileManager.removeItemAtPath(path, error: nil)
+            fileManager.removeItemAtPath(operation.targetPath, error: nil)
         }
         
         task.dropRecord() //TODO a lazy error
+        
+        DownloadManager.sharedInstance.tasks.removeValueForKey(urlLabel.text!)
+        operation = nil
+        
         
         NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "reload", userInfo: nil, repeats: false)
     }
@@ -96,11 +92,12 @@ class DownloadViewCell: UITableViewCell {
             
             var request = NSMutableURLRequest(URL: url!, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 7200)
             operation = AFDownloadRequestOperation(request: request, targetPath: path, shouldResume: true)
-            operation.deleteTempFileOnCancel = true
             DownloadManager.sharedInstance.tasks[urlLabel.text!] = operation
         } else {
             operation = DownloadManager.sharedInstance.tasks[urlLabel.text!]!
         }
+        
+        operation.deleteTempFileOnCancel = true
         
         if (task.progress == 100) {
             pauseButton.hidden = true
